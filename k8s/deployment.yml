@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan-approval-deployment
+  labels:
+    app: loan-approval
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loan-approval
+  template:
+    metadata:
+      labels:
+        app: loan-approval
+    spec:
+      containers:
+        - name: loan-approval-container
+          image: tanmayfalke7/loan-approval-app:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8501
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 5
+            periodSeconds: 10
