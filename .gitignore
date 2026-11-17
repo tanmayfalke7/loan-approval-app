@@ -27,3 +27,10 @@ ENV/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
